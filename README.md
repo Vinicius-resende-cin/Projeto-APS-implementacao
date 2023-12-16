@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Projeto criado para a disciplina de APS (Análise e Projeto de Sistemas) do curso de Ciência da Computação do Centro de Informática da Universidade Federal de Pernambuco (UFPE).
+Projeto criado para a disciplina de APS (Análise e Projeto de Sistemas) do curso do Centro de Informática da Universidade Federal de Pernambuco (UFPE).
 
 ## Equipe
 
@@ -23,6 +23,6 @@ O front-end foi desenvolvido utilizando o framework [React](https://reactjs.org/
   - `pages/`: Contém as páginas do projeto.
   - `services/`: Agrupa serviços relacionados ao backend, como chamadas de API ou lógica de negócios.
 
-_Importante:_ Cada componente corresponde a uma classe de projeto, cada página corresponde a uma tela da GUI e cada service corresponde a um subsistema. Dessa forma, o front-end implementa as camadas de GUI e Negócios do sistema.
+_Importante:_ Cada componente corresponde a uma classe de projeto, cada página corresponde a uma tela da GUI e cada service corresponde a um subsistema. Dessa forma, o front-end implementa as camadas de GUI e Negócios do projeto.
 
 ### Back-end
