@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Projeto criado para a disciplina de APS (Análise e Projeto de Sistemas) do curso do Centro de Informática da Universidade Federal de Pernambuco (UFPE).
+Projeto criado para a disciplina de APS (Análise e Projeto de Sistemas) do curso de Ciência da Computação do Centro de Informática da Universidade Federal de Pernambuco (UFPE).
 
 ## Equipe
 
