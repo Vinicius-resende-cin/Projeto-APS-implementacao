@@ -29,18 +29,18 @@ _Importante:_ Cada componente corresponde a uma classe de projeto, cada página 
 
 O back-end foi desenvolvido utilizando o framework [Node](https://nodejs.org/) com Typescript, e foi estruturado da seguinte forma:
 
-backend/
-├── node_modules/
-├── src/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── data/
-│   └── index.js
-├── utils/
-├── package.json
-└── README.md
+- `node_modules/`
+- `src/`
+  - `controllers/`
+  - `models/`
+  - `routes/`
+  - `data/`
+  - `index.js`
+- `utils/`
+- `package.json`
+- `README.md`
 
+#### Descrição
 - A pasta node_modules contém as dependências do projeto instaladas pelo npm.
 - A pasta src contém o código-fonte do projeto, com subpastas para controllers, models, routes e data.
 - O arquivo index.js é o ponto de entrada do projeto e contém a configuração do servidor e a definição das rotas.
