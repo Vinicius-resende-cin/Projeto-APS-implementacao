@@ -15,7 +15,7 @@ Projeto criado para a disciplina de APS (Análise e Projeto de Sistemas) do curs
 
 ### Front-end
 
-O front-end foi desenvolvido utilizando o framework [React](https://reactjs.org/), e foi estruturado da seguinte forma:
+O front-end foi desenvolvido utilizando o framework [React](https://reactjs.org/) com Typescript, e foi estruturado da seguinte forma:
 
 - `public/`: Contém os arquivos estáticos do projeto, como o `index.html` e `manifest.json`.
 - `src/`: Contém os arquivos do projeto, como os componentes React e os arquivos de estilo.
