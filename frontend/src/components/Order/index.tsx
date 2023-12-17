@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -8,16 +9,19 @@ import {
   Grid,
   Radio,
   RadioGroup,
-  Typography,
+  Typography
 } from "@mui/material";
 import { StyledCard, StyledCardContainer } from "./styles";
-import { useState } from "react";
-import OrderCollection from "../../services/OrderCollectionService";
+import { useEffect, useState } from "react";
+import ImageController from "../../controllers/ImageController";
 
 export interface Order {
   id: string;
+  name: string;
+  description: string;
   user: string;
   status: string;
+  image?: Blob;
 }
 
 interface OrderViewProps {
@@ -29,8 +33,14 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
   const [open, setOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(order.status);
 
+  const imageController = new ImageController();
+
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedStatus(event.target.value);
+  };
+
+  const handleImageCapture = () => {
+    imageController.openCamera();
   };
 
   const handleOpen = () => {
@@ -56,6 +66,23 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
                 Order ID: {order.id}
               </Typography>
             </Grid>
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+              <Button variant="contained" component="label" onClick={handleImageCapture}>
+                Take Picture
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                component="img"
+                id="captured-image"
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "contain"
+                }}
+                src=""
+              />
+            </Grid>
             <Grid item xs={6}>
               <Typography>Status:</Typography>
               <Typography variant="body1">{order.status}</Typography>
@@ -69,29 +96,16 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
             variant="contained"
             color="primary"
             sx={{ marginTop: "1rem" }}
-            onClick={handleOpen}
-          >
+            onClick={handleOpen}>
             Update Status
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Update Order Status</DialogTitle>
             <DialogContent>
               <RadioGroup value={selectedStatus} onChange={handleStatusChange}>
-                <FormControlLabel
-                  value="Pending"
-                  control={<Radio />}
-                  label="Pending"
-                />
-                <FormControlLabel
-                  value="Delivered"
-                  control={<Radio />}
-                  label="Delivered"
-                />
-                <FormControlLabel
-                  value="Processing"
-                  control={<Radio />}
-                  label="Processing"
-                />
+                <FormControlLabel value="Pending" control={<Radio />} label="Pending" />
+                <FormControlLabel value="Delivered" control={<Radio />} label="Delivered" />
+                <FormControlLabel value="Processing" control={<Radio />} label="Processing" />
               </RadioGroup>
             </DialogContent>
             <DialogActions>
