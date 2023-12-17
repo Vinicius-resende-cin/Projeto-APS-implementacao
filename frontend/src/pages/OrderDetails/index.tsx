@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import OrderView, { Order } from "../../components/Order";
 import OrderCollection from "../../services/OrderCollectionService";
+import ImageCapture from "../../components/Image/ImageCapture";
 
 export default function OrderDetails() {
   const params = new URLSearchParams(document.location.search);
@@ -15,7 +16,7 @@ export default function OrderDetails() {
           if (prevOrder) {
             return {
               ...prevOrder,
-              status: updatedStatus,
+              status: updatedStatus
             };
           }
           return prevOrder;
@@ -35,13 +36,16 @@ export default function OrderDetails() {
 
     setOrder({
       id: orderId,
+      name: "Order Name",
+      description: "Order Description",
       user: "John Doe",
-      status: "Pending",
+      status: "Pending"
     });
   }, [orderId]);
 
   return (
     <div>
+      <ImageCapture />
       <h1>Order Details</h1>
       {order && <OrderView order={order} onUpdateStatus={handleStatusUpdate} />}
     </div>
