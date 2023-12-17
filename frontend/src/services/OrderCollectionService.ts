@@ -20,4 +20,20 @@ export default class OrderCollection {
     });
     return await response.json();
   }
+
+  static async addOrder(order: Order) {
+    const response = await fetch(`${serverUrl}/api/order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    });
+    return await response.json();
+  }
+
+  static async deleteOrder(id: string) {
+    const response = await fetch(`${serverUrl}/api/order?id=${id}`, {
+      method: "DELETE",
+    });
+    return await response.json();
+  }
 }

@@ -1,8 +1,7 @@
-// import React from "react";
 import { useState, useEffect } from "react";
 import OrderView, { Order } from "../../components/Order";
-import OrderCollection from "../../services/OrderCollectionService";
 import ImageCapture from "../../components/Image/ImageCapture";
+import OrderDetailsController from "../../controllers/OrderDetailsController";
 
 export default function OrderDetails() {
   const params = new URLSearchParams(document.location.search);
@@ -16,12 +15,12 @@ export default function OrderDetails() {
           if (prevOrder) {
             return {
               ...prevOrder,
-              status: updatedStatus
+              status: updatedStatus,
             };
           }
           return prevOrder;
         });
-        await OrderCollection.updateOrder(order.id, order);
+        await OrderDetailsController.updateOrder(order.id, order);
       } catch (error) {
         console.error("Error updating order status:", error);
       }
@@ -30,7 +29,7 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (!orderId) return;
-    // OrderCollection.getOrder(orderId).then((order) => {
+    // OrderDetailsController.getOrder(orderId).then((order) => {
     //   setOrder(order);
     // });
 
@@ -39,7 +38,7 @@ export default function OrderDetails() {
       name: "Order Name",
       description: "Order Description",
       user: "John Doe",
-      status: "Pending"
+      status: "Pending",
     });
   }, [orderId]);
 
