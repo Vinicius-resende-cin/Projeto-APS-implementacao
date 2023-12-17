@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { useState, useEffect } from "react";
 import OrderView, { Order } from "../../components/Order";
 import OrderCollection from "../../services/OrderCollectionService";
@@ -8,17 +8,42 @@ export default function OrderDetails() {
   const orderId = params.get("orderId");
   const [order, setOrder] = useState<Order>();
 
+  const handleStatusUpdate = async (updatedStatus: string) => {
+    if (order && order.id) {
+      try {
+        await setOrder((prevOrder: Order | undefined) => {
+          if (prevOrder) {
+            return {
+              ...prevOrder,
+              status: updatedStatus,
+            };
+          }
+          return prevOrder;
+        });
+        await OrderCollection.updateOrder(order.id, order);
+      } catch (error) {
+        console.error("Error updating order status:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (!orderId) return;
-    OrderCollection.getOrder(orderId).then((order) => {
-      setOrder(order);
+    // OrderCollection.getOrder(orderId).then((order) => {
+    //   setOrder(order);
+    // });
+
+    setOrder({
+      id: orderId,
+      user: "John Doe",
+      status: "Pending",
     });
   }, [orderId]);
 
   return (
     <div>
       <h1>Order Details</h1>
-      {order && <OrderView {...order} />}
+      {order && <OrderView order={order} onUpdateStatus={handleStatusUpdate} />}
     </div>
   );
 }
