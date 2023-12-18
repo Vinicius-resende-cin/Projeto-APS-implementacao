@@ -1,7 +1,7 @@
 import ImageCollection from "../services/ImageCollectionService";
 
 export default class ImageController {
-  public openCamera(): void {
+  public static openCamera(): void {
     const cameraOverlay = document.getElementById("camera-overlay") as HTMLDivElement;
     cameraOverlay.style.display = "block";
 

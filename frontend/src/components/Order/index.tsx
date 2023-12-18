@@ -12,8 +12,8 @@ import {
   Typography
 } from "@mui/material";
 import { StyledCard, StyledCardContainer } from "./styles";
-import { useEffect, useState } from "react";
-import ImageController from "../../controllers/ImageController";
+import { useState } from "react";
+import Facade from "../../controllers/Facade";
 
 export interface Order {
   id: string;
@@ -33,14 +33,12 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
   const [open, setOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(order.status);
 
-  const imageController = new ImageController();
-
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedStatus(event.target.value);
   };
 
   const handleImageCapture = () => {
-    imageController.openCamera();
+    Facade.openCamera();
   };
 
   const handleOpen = () => {
