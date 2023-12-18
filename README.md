@@ -49,4 +49,4 @@ O back-end foi desenvolvido utilizando o framework [Node](https://nodejs.org/) c
 - O arquivo package.json contém as informações do projeto, como nome, versão e dependências.
 - O arquivo README.md contém a documentação do projeto.
 - A pasta utils pode ser utilizada para armazenar funções utilitárias que podem ser utilizadas em diferentes partes do projeto.
-  Essa é uma estrutura básica e pode ser expandida ou modificada de acordo com as necessidades do projeto.
+Essa é uma estrutura básica e pode ser expandida ou modificada de acordo com as necessidades do projeto.
