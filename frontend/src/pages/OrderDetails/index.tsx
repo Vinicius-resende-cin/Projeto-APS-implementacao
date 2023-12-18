@@ -15,7 +15,7 @@ export default function OrderDetails() {
           if (prevOrder) {
             return {
               ...prevOrder,
-              status: updatedStatus,
+              status: updatedStatus
             };
           }
           return prevOrder;
@@ -29,16 +29,8 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (!orderId) return;
-    // OrderDetailsController.getOrder(orderId).then((order) => {
-    //   setOrder(order);
-    // });
-
-    setOrder({
-      id: orderId,
-      name: "Order Name",
-      description: "Order Description",
-      user: "John Doe",
-      status: "Pending",
+    OrderDetailsController.getOrder(orderId).then((order) => {
+      setOrder(order);
     });
   }, [orderId]);
 

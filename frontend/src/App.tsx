@@ -11,8 +11,8 @@ function App() {
           path="/"
           element={
             <div>
-              <h1>Hello, World!</h1>
-              <Link to="details?orderId=123">Order 123</Link>
+              <h1>Delivery Control</h1>
+              <Link to="details?orderId=1">Order 1</Link>
             </div>
           }
         />

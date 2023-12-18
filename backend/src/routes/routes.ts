@@ -1,7 +1,7 @@
-import express from "express"
-import * as controllers from '../controllers/order'
-import * as data  from '../data/order'
-const router = express.Router()
+import express from "express";
+import * as controllers from "../controllers/order";
+import * as data from "../data/order";
+const router = express.Router();
 
 // Instancia repositório e collection
 const orderRepositoryBDR = new data.OrderRepositoryBDR();
@@ -15,10 +15,10 @@ const orderArrivedController = new controllers.OrderArrivedController(orderColle
 const orderCancelController = new controllers.OrderCancelController(orderCollection);
 
 // Define routers
-router.post('/order/register', orderRegisterController.create.bind(orderRegisterController))
-router.get('/order/list', orderListController.list.bind(orderListController))
-router.get('/order/details', orderDetailsController.get.bind(orderDetailsController))
-router.post('/order/arrived', orderArrivedController.arrived.bind(orderArrivedController))
-router.post('/order/cancel', orderCancelController.cancel.bind(orderCancelController))
+router.post("/order/register", orderRegisterController.create.bind(orderRegisterController));
+router.get("/order/list", orderListController.list.bind(orderListController));
+router.get("/order/details", orderDetailsController.get.bind(orderDetailsController));
+router.put("/order/arrived", orderArrivedController.arrived.bind(orderArrivedController));
+router.delete("/order/cancel", orderCancelController.cancel.bind(orderCancelController));
 
-export { router }
+export { router };

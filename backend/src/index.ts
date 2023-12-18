@@ -1,12 +1,14 @@
-import express from 'express'
+import express from "express";
+var cors = require("cors");
 
-const app = express()
+const app = express();
 
-import { router } from './routes/routes'
+import { router } from "./routes/routes";
 
-app.use(express.json())
-app.use(router)
+app.use(express.json());
+app.use(cors());
+app.use(router);
 
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000')
-})
+app.listen(3100, () => {
+  console.log("Servidor rodando na porta 3100");
+});
