@@ -29,5 +29,6 @@ router.get("/order/list", orderListController.list.bind(orderListController));
 router.get("/order/details", orderDetailsController.get.bind(orderDetailsController));
 router.put("/order/arrived", orderArrivedController.arrived.bind(orderArrivedController));
 router.delete("/order/cancel", orderCancelController.cancel.bind(orderCancelController));
+router.put("/order/update", orderDetailsController.update.bind(orderDetailsController));
 
 export { router };
