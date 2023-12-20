@@ -11,16 +11,13 @@ export default function OrderDetails() {
   const handleStatusUpdate = async (updatedStatus: string) => {
     if (order && order.id) {
       try {
-        await setOrder((prevOrder: Order | undefined) => {
-          if (prevOrder) {
-            return {
-              ...prevOrder,
-              status: updatedStatus
-            };
-          }
-          return prevOrder;
+        const newOrder = {
+          ...order,
+          status: updatedStatus
+        };
+        Facade.updateOrder(order.id, newOrder).then(() => {
+          setOrder(newOrder);
         });
-        await Facade.updateOrder(order.id, order);
       } catch (error) {
         console.error("Error updating order status:", error);
       }

@@ -52,6 +52,8 @@ export class OrderDetailsController {
   }
 
   async update(req: any, res: any) {
+    const orderID = req.query.id;
+    console.log(`Atualizando order ${orderID}...`);
     const order = await this.orderCollection.update(req.body);
     res.send(order);
   }

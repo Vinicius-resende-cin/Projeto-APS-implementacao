@@ -19,7 +19,7 @@ export interface Order {
   id: string;
   name: string;
   description: string;
-  user: string;
+  userID: string;
   status: string;
   image?: Blob;
 }
@@ -87,7 +87,7 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
             </Grid>
             <Grid item xs={6}>
               <Typography>User:</Typography>
-              <Typography variant="body1">{order.user}</Typography>
+              <Typography variant="body1">{order.userID}</Typography>
             </Grid>
           </Grid>
           <Button
