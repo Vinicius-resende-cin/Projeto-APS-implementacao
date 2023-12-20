@@ -1,4 +1,5 @@
 import Order from "../models/order";
+import { JSONtoSQLAdapter } from "./JSONtoSQLAdapter";
 import sqlite3 from "sqlite3";
 
 interface IOrderRepository {
@@ -18,6 +19,7 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
     console.log("Conexão com o banco de dados estabelecida.");
   });
+
   doReadSql(sql: string, params: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
       this.db.all(sql, params, (err, rows: Order[]) => {
@@ -44,13 +46,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async create(order: Partial<Order>): Promise<Order> {
-    const columns = Object.keys(order).join(", ");
-    const placeholders = Object.keys(order)
-      .map(() => "?")
-      .join(", ");
-    const values = Object.values(order);
-
-    const sql = `INSERT INTO Orders (${columns}) VALUES (${placeholders}) RETURNING *`;
+    const { sql, values } = JSONtoSQLAdapter.adaptCreate(order);
     try {
       const row = await this.doWriteSql(sql, values);
       return row;
@@ -61,8 +57,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async read(id: string): Promise<Order | null> {
-    const sql = "SELECT * FROM Orders WHERE id = ?";
-    const params = [id];
+    const { sql, params } = JSONtoSQLAdapter.adaptRead(id);
     try {
       const orders = await this.doReadSql(sql, params);
       return orders[0] || null;
@@ -73,8 +68,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async listByUserID(userID: string): Promise<Order[] | null> {
-    const sql = "SELECT * FROM Orders WHERE userID = ?";
-    const params = [userID];
+    const { sql, params } = JSONtoSQLAdapter.adaptListByUserID(userID);
     try {
       const orders = await this.doReadSql(sql, params);
       return orders || null;
@@ -85,9 +79,9 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async listAll(): Promise<Order[] | null> {
-    const sql = "SELECT * FROM Orders";
+    const { sql, params } = JSONtoSQLAdapter.adaptListAll();
     try {
-      const orders = await this.doReadSql(sql, []);
+      const orders = await this.doReadSql(sql, params);
       return orders || null;
     } catch (error: any) {
       console.error(error.message);
@@ -95,16 +89,7 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
   }
   async update(order: Partial<Order>): Promise<Order> {
-    const orderID = order.id;
-    delete order.id;
-
-    const columns = Object.keys(order)
-      .map((key) => `${key} = ?`)
-      .join(", ");
-    const params = Object.values(order);
-    params.push(String(orderID));
-
-    const sql = `UPDATE Orders SET ${columns} WHERE id = ? RETURNING *`;
+    const { sql, params } = JSONtoSQLAdapter.adaptUpdate(order);
     try {
       const row = await this.doWriteSql(sql, params);
       return row;
@@ -115,8 +100,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async delete(id: string): Promise<Order> {
-    const sql = "DELETE FROM Orders WHERE id = ? RETURNING *";
-    const params = [id];
+    const { sql, params } = JSONtoSQLAdapter.adaptDelete(id);
     try {
       const row = await this.doWriteSql(sql, params);
       return row;
