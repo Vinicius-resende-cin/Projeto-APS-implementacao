@@ -1,10 +1,19 @@
 import express from "express";
+import "dotenv/config";
 import * as controllers from "../controllers/order";
 import * as data from "../data/order";
+import {
+  AbstractRepositoryFactory,
+  BDRRepositoryFactory,
+  NRRepositoryFactory
+} from "../data/RepositoryFactory";
 const router = express.Router();
 
-// Instancia repositório e collection
-const orderRepositoryBDR = new data.OrderRepositoryBDR();
+// Instancia repositório (com abstract factory) e collection
+let repositoryFactory: AbstractRepositoryFactory =
+  process.env.DB_TYPE === "BDR" ? new BDRRepositoryFactory() : new NRRepositoryFactory();
+
+const orderRepositoryBDR = repositoryFactory.createOrderRepository();
 const orderCollection = new data.OrderCollection(orderRepositoryBDR);
 
 // Instancia controllers
