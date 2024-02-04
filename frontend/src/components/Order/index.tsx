@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { StyledCard, StyledCardContainer } from "./styles";
 import { useState } from "react";
-import Facade from "../../controllers/Facade";
+import ImagePresenter from "../../presenters/ImagePresenter";
 
 export interface Order {
   id: string;
@@ -38,7 +38,7 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
   };
 
   const handleImageCapture = () => {
-    Facade.openCamera();
+    ImagePresenter.openCamera();
   };
 
   const handleOpen = () => {
@@ -90,11 +90,7 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
               <Typography variant="body1">{order.userID}</Typography>
             </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: "1rem" }}
-            onClick={handleOpen}>
+          <Button variant="contained" color="primary" sx={{ marginTop: "1rem" }} onClick={handleOpen}>
             Update Status
           </Button>
           <Dialog open={open} onClose={handleClose}>

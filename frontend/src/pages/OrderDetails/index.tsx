@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import OrderView, { Order } from "../../components/Order";
 import ImageCapture from "../../components/Image/ImageCapture";
-import Facade from "../../controllers/Facade";
+import OrderDetailsPresenter from "../../presenters/OrderDetailsPresenter";
 
 export default function OrderDetails() {
   const params = new URLSearchParams(document.location.search);
@@ -15,7 +15,7 @@ export default function OrderDetails() {
           ...order,
           status: updatedStatus
         };
-        Facade.updateOrder(order.id, newOrder).then(() => {
+        OrderDetailsPresenter.updateOrder(order.id, newOrder).then(() => {
           setOrder(newOrder);
         });
       } catch (error) {
@@ -26,7 +26,7 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (!orderId) return;
-    Facade.getOrder(orderId).then((order) => {
+    OrderDetailsPresenter.getOrder(orderId).then((order) => {
       setOrder(order);
     });
   }, [orderId]);
