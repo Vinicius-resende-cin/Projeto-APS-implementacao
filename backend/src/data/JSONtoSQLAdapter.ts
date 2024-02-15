@@ -1,49 +1,54 @@
 import Order from "../models/order";
+import User from "../models/user";
 
 class JSONtoSQLAdapter {
-  static adaptCreate(order: Partial<Order>) {
-    const columns = Object.keys(order).join(", ");
-    const placeholders = Object.keys(order)
+  constructor(public table: string) {
+    this.table = table;
+  }
+
+  adaptCreate(item: object) {
+    const columns = Object.keys(item).join(", ");
+    const placeholders = Object.keys(item)
       .map(() => "?")
       .join(", ");
-    const values = Object.values(order);
-    const sql = `INSERT INTO Orders (${columns}) VALUES (${placeholders}) RETURNING *`;
+    const values = Object.values(item);
+    const sql = `INSERT INTO ${this.table} (${columns}) VALUES (${placeholders}) RETURNING *`;
     return { sql, values };
   }
 
-  static adaptRead(id: string) {
-    const sql = "SELECT * FROM Orders WHERE id = ?";
+  adaptRead(id: number) {
+    const sql = `SELECT * FROM ${this.table} WHERE id = ?`;
     const params = [id];
     return { sql, params };
   }
 
-  static adaptListByUserID(userID: string) {
+  adaptListByUserID(userID: number) {
     const sql = "SELECT * FROM Orders WHERE userID = ?";
     const params = [userID];
     return { sql, params };
   }
 
-  static adaptListAll() {
-    const sql = "SELECT * FROM Orders";
+  adaptListAll() {
+    const sql = `SELECT * FROM ${this.table}`;
     return { sql, params: [] };
   }
 
-  static adaptUpdate(order: Partial<Order>) {
-    const orderID = order.id;
-    delete order.id;
+  adaptUpdate(item: object) {
+    const id = item["id"];
+    delete item["id"];
 
-    const columns = Object.keys(order)
+    const columns = Object.keys(item)
       .map((key) => `${key} = ?`)
       .join(", ");
-    const params = Object.values(order);
-    params.push(String(orderID));
+    const params = Object.values(item);
+    params.push(String(id));
 
-    const sql = `UPDATE Orders SET ${columns} WHERE id = ? RETURNING *`;
+    const sql = `UPDATE ${this.table} SET ${columns} WHERE id = ? RETURNING *`;
     return { sql, params };
   }
 
-  static adaptDelete(id: string) {
-    const sql = "DELETE FROM Orders WHERE id = ? RETURNING *";
+  adaptDelete(id: number) {
+    const sql = `DELETE FROM ${this.table} WHERE id = ? RETURNING *`;
     const params = [id];
     return { sql, params };
   }

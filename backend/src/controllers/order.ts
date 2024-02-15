@@ -1,5 +1,7 @@
 import { OrderCollection } from "../data/order";
 import Order from "../models/order";
+import * as Notification from "./notification";
+import * as User from "../data/user";
 
 export class OrderRegisterController {
   private orderCollection: OrderCollection;
@@ -10,6 +12,12 @@ export class OrderRegisterController {
 
   async create(req: any, res: any) {
     const order = await this.orderCollection.create(req.body);
+    // Coleta dados para notificar usuário
+    const userRepository = new User.UserRepositoryBDR();
+    const userCollection = new User.UserCollection(userRepository);
+    const user = await userCollection.read(order.userID);
+    // Notifica usuário
+    Notification.orderStatusChange(user, order)
     res.send(order);
   }
 }
@@ -67,8 +75,16 @@ export class OrderArrivedController {
   }
 
   async arrived(req: any, res: any) {
+    // Armazena a alteração de status da order
     const orderID = req.query.id;
     const order = await this.orderCollection.update({ id: orderID, status: "arrived" });
+    // Coleta dados para notificar usuário
+    const userRepository = new User.UserRepositoryBDR();
+    const userCollection = new User.UserCollection(userRepository);
+    const user = await userCollection.read(order.userID);
+    // Notifica usuário
+    Notification.orderStatusChange(user, order)
+    // Envia order atualizada como resposta
     res.send(order);
   }
 }
