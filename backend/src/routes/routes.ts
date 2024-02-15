@@ -1,5 +1,5 @@
-import express from "express";
-import "dotenv/config";
+import * as express from "express";
+import * as dotenv from "dotenv";
 import * as controllers from "../controllers/order";
 import * as data from "../data/order";
 import {
@@ -7,9 +7,14 @@ import {
   BDRRepositoryFactory,
   NRRepositoryFactory
 } from "../data/RepositoryFactory";
+
+dotenv.config({path: require.main === module? "../.env":"./src/.env"})
+const DB_TYPE = process.env.DB_TYPE;
+
 const router = express.Router();
 
 // Instancia repositório (com abstract factory) e collection
+console.log(DB_TYPE)
 let repositoryFactory: AbstractRepositoryFactory =
   process.env.DB_TYPE === "BDR" ? new BDRRepositoryFactory() : new NRRepositoryFactory();
 

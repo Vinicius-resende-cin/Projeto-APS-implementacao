@@ -1,24 +1,25 @@
 import Order from "../models/order";
 import { JSONtoSQLAdapter } from "./JSONtoSQLAdapter";
-import sqlite3 from "sqlite3";
+import * as sqlite3 from "sqlite3";
 
 interface IOrderRepository {
   create(order: Partial<Order>): Promise<Order>;
-  read(id: string): Promise<Order | null>;
-  listByUserID(userID: string): Promise<Order[] | null>;
+  read(id: number): Promise<Order | null>;
+  listByUserID(userID: number): Promise<Order[] | null>;
   listAll(): Promise<Order[] | null>;
   update(order: Partial<Order>): Promise<Order>;
-  delete(id: string): Promise<Order>;
+  delete(id: number): Promise<Order>;
 }
 
 class OrderRepositoryBDR implements IOrderRepository {
-  db = new sqlite3.Database("./src/data/database.sqlite", (error) => {
+  db = new sqlite3.Database(require.main === module ? "./database.sqlite":"./src/data/database.sqlite", (error) => {
     if (error) {
       console.error(error.message);
       throw error;
     }
     console.log("Conexão com o banco de dados estabelecida.");
   });
+  jsonToSQLAdapter = new JSONtoSQLAdapter("Orders");
 
   doReadSql(sql: string, params: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -46,7 +47,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async create(order: Partial<Order>): Promise<Order> {
-    const { sql, values } = JSONtoSQLAdapter.adaptCreate(order);
+    const { sql, values } = this.jsonToSQLAdapter.adaptCreate(order);
     try {
       const row = await this.doWriteSql(sql, values);
       return row;
@@ -56,8 +57,8 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
   }
 
-  async read(id: string): Promise<Order | null> {
-    const { sql, params } = JSONtoSQLAdapter.adaptRead(id);
+  async read(id: number): Promise<Order | null> {
+    const { sql, params } = this.jsonToSQLAdapter.adaptRead(id);
     try {
       const orders = await this.doReadSql(sql, params);
       return orders[0] || null;
@@ -67,8 +68,8 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
   }
 
-  async listByUserID(userID: string): Promise<Order[] | null> {
-    const { sql, params } = JSONtoSQLAdapter.adaptListByUserID(userID);
+  async listByUserID(userID: number): Promise<Order[] | null> {
+    const { sql, params } = this.jsonToSQLAdapter.adaptListByUserID(userID);
     try {
       const orders = await this.doReadSql(sql, params);
       return orders || null;
@@ -79,7 +80,7 @@ class OrderRepositoryBDR implements IOrderRepository {
   }
 
   async listAll(): Promise<Order[] | null> {
-    const { sql, params } = JSONtoSQLAdapter.adaptListAll();
+    const { sql, params } = this.jsonToSQLAdapter.adaptListAll();
     try {
       const orders = await this.doReadSql(sql, params);
       return orders || null;
@@ -89,7 +90,7 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
   }
   async update(order: Partial<Order>): Promise<Order> {
-    const { sql, params } = JSONtoSQLAdapter.adaptUpdate(order);
+    const { sql, params } = this.jsonToSQLAdapter.adaptUpdate(order);
     try {
       const row = await this.doWriteSql(sql, params);
       return row;
@@ -99,8 +100,8 @@ class OrderRepositoryBDR implements IOrderRepository {
     }
   }
 
-  async delete(id: string): Promise<Order> {
-    const { sql, params } = JSONtoSQLAdapter.adaptDelete(id);
+  async delete(id: number): Promise<Order> {
+    const { sql, params } = this.jsonToSQLAdapter.adaptDelete(id);
     try {
       const row = await this.doWriteSql(sql, params);
       return row;
@@ -115,10 +116,10 @@ class OrderRepositoryNR implements IOrderRepository {
   create(order: Partial<Order>): Promise<Order> {
     throw new Error("Method not implemented.");
   }
-  read(id: string): Promise<Order | null> {
+  read(id: number): Promise<Order | null> {
     throw new Error("Method not implemented.");
   }
-  listByUserID(userID: string): Promise<Order[] | null> {
+  listByUserID(userID: number): Promise<Order[] | null> {
     throw new Error("Method not implemented.");
   }
   listAll(): Promise<Order[] | null> {
@@ -127,7 +128,7 @@ class OrderRepositoryNR implements IOrderRepository {
   update(order: Partial<Order>): Promise<Order> {
     throw new Error("Method not implemented.");
   }
-  delete(id: string): Promise<Order> {
+  delete(id: number): Promise<Order> {
     throw new Error("Method not implemented.");
   }
 }
@@ -138,13 +139,13 @@ class OrderCollection {
   constructor(orderRepository: IOrderRepository) {
     this.orderRepository = orderRepository;
   }
-  create(order: Order): Promise<Order> {
+  create(order: Partial<Order>): Promise<Order> {
     return this.orderRepository.create(order);
   }
-  read(id: string): Promise<Order | null> {
+  read(id: number): Promise<Order | null> {
     return this.orderRepository.read(id);
   }
-  listByUserID(userID: string): Promise<Order[] | null> {
+  listByUserID(userID: number): Promise<Order[] | null> {
     return this.orderRepository.listByUserID(userID);
   }
   listAll(): Promise<Order[] | null> {
@@ -153,9 +154,24 @@ class OrderCollection {
   update(order: Partial<Order>): Promise<Order> {
     return this.orderRepository.update(order);
   }
-  delete(id: string): Promise<Order> {
+  delete(id: number): Promise<Order> {
     return this.orderRepository.delete(id);
   }
 }
 
 export { IOrderRepository, OrderRepositoryBDR, OrderRepositoryNR, OrderCollection };
+
+// Teste de uso da interface
+if (require.main === module) {  
+  const orderRepository = new OrderRepositoryBDR();
+  const orderCollection = new OrderCollection(orderRepository);
+
+  // const myorder = orderCollection.create({
+  //     name: "Dário",
+  //     type: "resident",
+  //     apartment: "302",
+  //     email: "dgsv@cin.ufpe.br"
+  // })
+  // console.log(myorder)
+
+}
