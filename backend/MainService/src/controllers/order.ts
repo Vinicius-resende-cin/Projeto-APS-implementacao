@@ -1,7 +1,7 @@
 import { OrderCollection } from "../data/order";
 import Order from "../models/order";
-import * as Notification from "./notification";
 import * as User from "../data/user";
+import * as Notification from "../services/notification";
 
 export class OrderRegisterController {
   private orderCollection: OrderCollection;
@@ -16,8 +16,11 @@ export class OrderRegisterController {
     const userRepository = new User.UserRepositoryBDR();
     const userCollection = new User.UserCollection(userRepository);
     const user = await userCollection.read(order.userID);
+
+    if (!user) throw new Error("Usuário não encontrado");
+
     // Notifica usuário
-    Notification.orderStatusChange(user, order)
+    await Notification.orderStatusChange(user, order);
     res.send(order);
   }
 }
@@ -82,8 +85,11 @@ export class OrderArrivedController {
     const userRepository = new User.UserRepositoryBDR();
     const userCollection = new User.UserCollection(userRepository);
     const user = await userCollection.read(order.userID);
+
+    if (!user) throw new Error("Usuário não encontrado");
+
     // Notifica usuário
-    Notification.orderStatusChange(user, order)
+    await Notification.orderStatusChange(user, order);
     // Envia order atualizada como resposta
     res.send(order);
   }
