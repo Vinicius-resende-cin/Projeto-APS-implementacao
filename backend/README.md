@@ -16,6 +16,17 @@ npm test
 
 Acesse o aplicativo em `http://localhost:3000`
 
+## Rodando a aplicação em docker:
+### Main
+    No diretório `backend/MainService/`:
+    `docker-compose build`
+    `docker-compose up`
+
+### Notification
+    No diretório `backend/NotificationService/`:
+    `docker-compose build`
+    `docker-compose up`
+
 ## Contribuição
 
 Crie uma branch para sua feature: 
