@@ -47,8 +47,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 # Runing in container:
-You can manualy run both commands:
-    `docker build -t delivery-control-front .`
-    `docker run -p 3000:3000 delivery-control-front`
-
-Or you can just run: `source ./dockerize.sh`
+    On directory `frontend/`:
+    `docker-compose build`
+    `docker-compose up`

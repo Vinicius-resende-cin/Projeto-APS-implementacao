@@ -19,13 +19,13 @@ Acesse o aplicativo em `http://localhost:3000`
 ## Rodando a aplicação em docker:
 ### Main
     No diretório `backend/MainService/`:
-    `docker build -t delivery-control-main-back .`
-    `docker run -p 3100:3100 delivery-control-main-back`
+    `docker-compose build`
+    `docker-compose up`
 
 ### Notification
     No diretório `backend/NotificationService/`:
-    `docker build -t delivery-control-notification-back .`
-    `docker run -p 3101:3101 delivery-control-notification-back`
+    `docker-compose build`
+    `docker-compose up`
 
 ## Contribuição
 

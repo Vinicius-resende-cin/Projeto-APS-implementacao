@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    command: npm test
+    volumes:
+        - .:/app
+        - /app/node_modules
+    ports:
+      - "3100:3100"
