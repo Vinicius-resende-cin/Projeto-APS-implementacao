@@ -46,7 +46,18 @@ O back-end foi desenvolvido utilizando o framework [Node](https://nodejs.org/) c
 - A pasta node_modules contém as dependências do projeto instaladas pelo npm.
 - A pasta src contém o código-fonte do projeto, com subpastas para controllers, models, routes e data.
 - O arquivo index.js é o ponto de entrada do projeto e contém a configuração do servidor e a definição das rotas.
-- O arquivo package.json contém as informações do projeto, como nome, versão e dependências.
+- O arquivo package.json contém as informações do proj eto, como nome, versão e dependências.
 - O arquivo README.md contém a documentação do projeto.
 - A pasta utils pode ser utilizada para armazenar funções utilitárias que podem ser utilizadas em diferentes partes do projeto.
 Essa é uma estrutura básica e pode ser expandida ou modificada de acordo com as necessidades do projeto.
+
+
+## Rodando o projeto:
+Requisitos:
+1. [Docker](https://docs.docker.com)
+2. [docker-compose](https://docs.docker.com/compose/)
+
+Em um terminal na pasta inicial do projeto rode:
+1. `docker-compose build` Para buildar os serviços
+2. `docker-compoes up` Para iniciar os serviços
+3. Acesse a url: http://localhost:3000 
