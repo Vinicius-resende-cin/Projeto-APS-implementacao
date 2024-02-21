@@ -7,14 +7,14 @@ import Order from "../models/order";
 
 dotenv.config({ path: require.main === module ? "../.env" : "./src/.env" });
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
-const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY as string;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 // Implementação da classe base
 export class ConcreteNotifier implements Notifier {
   messageConfiguration = {};
   addresses = {};
   private accessKeyId = AWS_ACCESS_KEY_ID;
-  private secretAccessKey = AWS_SECRET_ACCESS_KEY;
+  private secretAccessKey = AWS_SECRET_ACCESS_KEY as string;
 
   generateAwsSignature(
     secretKey: string,
@@ -81,12 +81,10 @@ export class ConcreteNotifier implements Notifier {
 
 export class Decorator implements Notifier {
   protected notifier: Notifier;
-  messageConfiguration: object;
-  addresses: object;
+  messageConfiguration!: object;
+  addresses!: object;
   constructor(source: Notifier) {
     this.notifier = source;
-    this.messageConfiguration = source.messageConfiguration;
-    this.addresses = source.addresses;
   }
 
   send(...args: any[]): void {
@@ -156,10 +154,8 @@ export function orderStatusChange(user: User, order: Order) {
     }
   };
 
-  const textMessage =
-    "Olá, {{user.name}}, seu pedido {{order.id}} teve status alterado para {{order.status}}.";
-  const htmlMessage =
-    "Olá, {{user.name}}, seu pedido {{order.id}} teve status alterado para {{order.status}}.";
+  const textMessage = `Olá, ${user.name}, seu pedido ${order.id} teve status alterado para ${order.status}.`;
+  const htmlMessage = `Olá, ${user.name}, seu pedido ${order.id} teve status alterado para ${order.status}.`;
   const title = "Pedido alterado";
 
   emailDecoratedNotifier.send(title, textMessage, htmlMessage, addresses, addressesData);

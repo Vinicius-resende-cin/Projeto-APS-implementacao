@@ -13,7 +13,8 @@ export default class OrderCollection {
   }
 
   static async updateOrder(id: string, order: Order) {
-    const response = await fetch(`${serverUrl}/order/update?id=${id}`, {
+    const route = order.status === "Delivered" ? "arrived" : "update";
+    const response = await fetch(`${serverUrl}/order/${route}?id=${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(order)

@@ -11,14 +11,14 @@ app.use(express.json());
 app.use(cors());
 
 app.post("/orderStatusChange", (req, res) => {
-  console.log(
-    `Notificando usuário ${req.body.userID} sobre a mudança de status do pedido ${req.body.orderID}...`
-  );
-
   if (!req.body.user || !req.body.order) {
     res.status(400).send("Bad request");
     throw new Error("Bad request");
   }
+
+  console.log(
+    `Notificando usuário ${req.body.user.id} sobre a mudança de status do pedido ${req.body.order.id}...`
+  );
 
   const user = new User(
     req.body.user.id,
