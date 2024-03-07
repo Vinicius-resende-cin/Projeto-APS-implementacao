@@ -13,7 +13,7 @@ export default function OrderDetails() {
       try {
         const newOrder = {
           ...order,
-          status: updatedStatus
+          status: updatedStatus,
         };
         OrderDetailsPresenter.updateOrder(order.id, newOrder).then(() => {
           setOrder(newOrder);
@@ -26,16 +26,24 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (!orderId) return;
-    OrderDetailsPresenter.getOrder(orderId).then((order) => {
-      setOrder(order);
+    // OrderDetailsPresenter.getOrder(orderId).then((order) => {
+    //   setOrder(order);
+    // });
+    setOrder({
+      id: orderId,
+      name: "test",
+      description: "test",
+      userID: "test",
+      status: "test",
+      // image: "test",
     });
   }, [orderId]);
 
   return (
-    <div>
+    <>
       <ImageCapture />
-      <h1>Order Details</h1>
+      {/* <h1>Order Details</h1> */}
       {order && <OrderView order={order} onUpdateStatus={handleStatusUpdate} />}
-    </div>
+    </>
   );
 }
