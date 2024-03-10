@@ -4,7 +4,6 @@ import Modal from "@mui/material/Modal";
 
 import ImageCapture from "../../components/Image/ImageCapture";
 import OrderDetailsPresenter from "../../presenters/OrderDetailsPresenter";
-import React from "react";
 import { Box } from "@mui/material";
 
 export interface OrderDetailsProps {
@@ -13,8 +12,6 @@ export interface OrderDetailsProps {
   onClose: () => void;
 }
 export default function OrderDetails(props: OrderDetailsProps) {
-  // const params = new URLSearchParams(document.location.search);
-  // const orderId = params.get("orderId");
   const [order, setOrder] = useState<Order>();
   const { orderId } = props;
 

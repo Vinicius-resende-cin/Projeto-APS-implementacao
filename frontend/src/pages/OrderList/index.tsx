@@ -74,20 +74,16 @@ export default function OrderList() {
         minHeight="100vh"
         padding="3rem"
         sx={{
-          // height: "100vh",
-          backgroundColor: "#F0F8FF", // Light blue background
+          backgroundColor: "#F0F8FF",
           opacity: "0.8",
           "@media (max-width: 600px)": {
             alignItems: "center",
           },
-          //   , // This blends the background image with the base color
-          //     background:
-          //       "repeating-linear-gradient(-45deg, #444cf7, #444cf7 20px, #e5e5f7 20px, #e5e5f7 100px)",
         }}
       >
         <Box
           display="flex"
-          width="90%"
+          width="100%"
           flexWrap="wrap"
           justifyContent="space-between"
           alignItems="center"
@@ -113,16 +109,14 @@ export default function OrderList() {
               boxShadow:
                 "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
 
-              // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
               padding: "0.5rem 1rem",
               background: "#1976D2",
               color: "white",
               "&:hover": {
-                background: "#00BCD4", // New background color on hover
+                background: "#00BCD4",
               },
             }}
           >
-            {/* <AddIcon /> */}
             Registrar Pedido
           </Button>
         </Box>
@@ -133,7 +127,7 @@ export default function OrderList() {
             <Tab label="Pendentes" />
           </Tabs>
         </Box>
-        {filteredOrders.map((order) => (
+        {/* {filteredOrders.map((order) => (
           <OrderListBox
             key={order.id}
             id={order.id}
@@ -142,16 +136,16 @@ export default function OrderList() {
             userName={order.userID}
             onOpenModal={handleOpenModal}
           />
-        ))}
+        ))} */}
 
-        {/* <OrderListBox
+        <OrderListBox
           key={"1"}
           id={"1"}
           createdAt={"2021-10-01"}
           updatedAt={"2021-10-01"}
           userName={"heyo"}
           onOpenModal={handleOpenModal}
-        /> */}
+        />
       </Box>
     </>
   );

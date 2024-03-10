@@ -1,6 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
-// import OrderDetails from "../../pages/OrderDetails";
+import { Grid, Typography } from "@mui/material";
 
 export interface OrderListBoxProps {
   id: string;
@@ -11,8 +9,6 @@ export interface OrderListBoxProps {
 }
 
 export default function OrderListBox(props: OrderListBoxProps) {
-  // const navigate = useNavigate();
-
   return (
     <Grid
       container

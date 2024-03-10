@@ -76,12 +76,11 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
                   boxShadow:
                     "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
 
-                  // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
                   padding: "0.5rem 1rem",
                   background: "#1976D2",
                   color: "white",
                   "&:hover": {
-                    background: "#00BCD4", // New background color on hover
+                    background: "#00BCD4",
                   },
                 }}
                 onClick={handleImageCapture}
@@ -117,18 +116,16 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
               borderRadius: "0",
               boxShadow:
                 "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-
-              // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
               padding: "0.5rem 1rem",
               background: "#1976D2",
               color: "white",
               "&:hover": {
-                background: "#00BCD4", // New background color on hover
+                background: "#00BCD4",
               },
             }}
             onClick={handleOpen}
           >
-            Update Status
+            Atualizar Status
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Update Order Status</DialogTitle>

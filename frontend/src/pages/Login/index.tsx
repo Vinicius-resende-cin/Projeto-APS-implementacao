@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 // import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 // import KeyIcon from "@mui/icons-material/Key";
@@ -62,41 +55,67 @@ export default function Login() {
           variant="h5"
           fontFamily="inherit"
           textAlign="start"
+          fontSize={25}
+          color="#4A4A4A"
           marginBottom="1rem"
         >
           Login
         </Typography>
-        <TextField
-          type="text"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          // InputProps={{
-          //   startAdornment: (
-          //     <InputAdornment position="start">
-          //       <PersonOutlineIcon sx={{ color: "#2196F3" }} />{" "}
-          //     </InputAdornment>
-          //   ),
-          // }}
-        ></TextField>
-        <TextField
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          // InputProps={{
-          //   startAdornment: (
-          //     <InputAdornment position="start">
-          //       <KeyIcon sx={{ color: "#2196F3" }} />
-          //     </InputAdornment>
-          //   ),
-          // }}
-        />
+        <Box
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          rowGap="2rem"
+          marginBottom="2rem"
+        >
+          <TextField
+            type="text"
+            placeholder="E-mail"
+            value={email}
+            fullWidth
+            onChange={(e) => setEmail(e.target.value)}
+            variant="standard"
+
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start">
+            //       <PersonOutlineIcon sx={{ color: "#2196F3" }} />{" "}
+            //     </InputAdornment>
+            //   ),
+            // }}
+          ></TextField>
+          <TextField
+            type="password"
+            placeholder="Senha"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="standard"
+
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start">
+            //       <KeyIcon sx={{ color: "#2196F3" }} />
+            //     </InputAdornment>
+            //   ),
+            // }}
+          />
+        </Box>
 
         <Button
           type="button"
           onClick={handleLogin}
-          sx={{ background: "#00BCD4", color: "white" }}
+          sx={{
+            background: "linear-gradient(45deg, #2196F3 30%, #00BCD4 90%)",
+            color: "white",
+            transition: "transform 0.3s ease",
+            "&:hover": {
+              // background: "#00BCD4",
+              boxShadow:
+                "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+            },
+            borderRadius: "0",
+          }}
         >
           Login
         </Button>
