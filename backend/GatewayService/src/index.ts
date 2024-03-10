@@ -3,12 +3,14 @@ import express from 'express';
 import logger from 'morgan';
 import expressHttpProxy from 'express-http-proxy';
 import CircuitBreaker from 'opossum';
+import cors from 'cors'
 
 // Cria a instância do aplicativo express
 const app = express();
 
 // Middleware para logar as requisições HTTP
 app.use(logger('dev'));
+app.use(cors())
 
 // Opções de configuração do Circuit Breaker
 const breakerOptions = {
@@ -28,8 +30,27 @@ const servicePorts = {
 const createCircuitBreaker = (serviceName: string) => {
   const servicePort = servicePorts[serviceName];
   const proxy = expressHttpProxy(`http://localhost:${servicePort}`);
-  return new CircuitBreaker(proxy, breakerOptions);
+
+  // Assinatura de função que corresponde ao que o Circuit Breaker espera.
+  const proxyFunction = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      proxy(req, res, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
+      });
+    }).catch(next); // Chame next com o erro, se houver.
+  };
+  
+  // new CircuitBreaker espera uma função que retorna uma Promise.
+  return new CircuitBreaker(proxyFunction, breakerOptions);
 };
+
+// Exemplo de uso:
+// const serviceBreaker = createCircuitBreaker('serviceName');
+// app.use('/service', serviceBreaker.fire);
 
 // Cria um objeto que armazena os Circuit Breakers para cada serviço
 const circuitBreakers = Object.keys(servicePorts).reduce((acc, key) => {
