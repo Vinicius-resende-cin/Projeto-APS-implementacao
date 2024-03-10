@@ -133,27 +133,25 @@ export default function OrderList() {
             <Tab label="Pendentes" />
           </Tabs>
         </Box>
-        {/* {filteredOrders.map((order) => (
-        <OrderListBox
-          key={order.id}
-          id={order.id}
-          createdAt={"2021-10-01"}
-          updatedAt={"2021-10-01"}
-          userName={order.userID}
-          onOpenModal={() => handleOpenModal()}
+        {filteredOrders.map((order) => (
+          <OrderListBox
+            key={order.id}
+            id={order.id}
+            createdAt={"2021-10-01"}
+            updatedAt={"2021-10-01"}
+            userName={order.userID}
+            onOpenModal={handleOpenModal}
+          />
+        ))}
 
-
-        />
-      ))} */}
-
-        <OrderListBox
+        {/* <OrderListBox
           key={"1"}
           id={"1"}
           createdAt={"2021-10-01"}
           updatedAt={"2021-10-01"}
           userName={"heyo"}
           onOpenModal={handleOpenModal}
-        />
+        /> */}
       </Box>
     </>
   );

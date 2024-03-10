@@ -49,17 +49,17 @@ export default function OrderDetails(props: OrderDetailsProps) {
 
   useEffect(() => {
     if (!orderId) return;
-    // OrderDetailsPresenter.getOrder(orderId).then((order) => {
-    //   setOrder(order);
-    // });
-    setOrder({
-      id: orderId,
-      name: "test",
-      description: "test",
-      userID: "test",
-      status: "test",
-      // image: "test",
+    OrderDetailsPresenter.getOrder(orderId).then((order) => {
+      setOrder(order);
     });
+    // setOrder({
+    //   id: orderId,
+    //   name: "test",
+    //   description: "test",
+    //   userID: "test",
+    //   status: "test",
+    //   // image: "test",
+    // });
   }, [orderId]);
   console.log(order);
   return (
