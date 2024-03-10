@@ -3,11 +3,24 @@ import OrderListBox from "../../components/OrderListBox";
 import OrderDetailsPresenter from "../../presenters/OrderDetailsPresenter";
 import { useEffect, useState } from "react";
 import { Order } from "../../components/Order";
+import OrderDetails from "../OrderDetails";
 
 export default function OrderList() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+  const handleOpenModal = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     getOrders();
@@ -47,84 +60,101 @@ export default function OrderList() {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      width="100vw"
-      height="100%"
-      padding="3rem"
-      sx={{
-        // height: "100vh",
-        backgroundColor: "#e5e5f7", // Light blue background
-        opacity: "0.8",
-        "@media (max-width: 600px)": {
-          alignItems: "center",
-        },
-        //   , // This blends the background image with the base color
-        //     background:
-        //       "repeating-linear-gradient(-45deg, #444cf7, #444cf7 20px, #e5e5f7 20px, #e5e5f7 100px)",
-      }}
-    >
+    <>
+      <OrderDetails
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        orderId={selectedOrderId || ""}
+      />
+
       <Box
         display="flex"
-        width="95%"
-        flexWrap="wrap"
-        justifyContent="space-between"
-        alignItems="center"
-        marginBottom="2rem"
-        gap="1rem"
+        flexDirection="column"
+        width="100vw"
+        minHeight="100vh"
+        padding="3rem"
+        sx={{
+          // height: "100vh",
+          backgroundColor: "#F0F8FF", // Light blue background
+          opacity: "0.8",
+          "@media (max-width: 600px)": {
+            alignItems: "center",
+          },
+          //   , // This blends the background image with the base color
+          //     background:
+          //       "repeating-linear-gradient(-45deg, #444cf7, #444cf7 20px, #e5e5f7 20px, #e5e5f7 100px)",
+        }}
       >
-        <Typography
-          variant="h4"
-          fontFamily="inherit"
-          fontWeight={700}
-          color=" dark brown"
-          sx={{
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            textAlign: "center",
-          }}
+        <Box
+          display="flex"
+          width="90%"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="center"
+          marginBottom="2rem"
+          gap="1rem"
         >
-          Histórico de pedidos
-        </Typography>
+          <Typography
+            variant="h4"
+            fontFamily="inherit"
+            fontWeight={600}
+            color="#4A4A4A"
+            sx={{
+              textShadow: "1px 1px 3px rgba(0, 0, 0, 0.25)",
+              textAlign: "center",
+            }}
+          >
+            Histórico de pedidos
+          </Typography>
 
-        <Button
-          sx={{
-            borderRadius: "0",
-            boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
-            padding: "0.5rem 1rem",
-            background: "#2196F3",
-            color: "white",
-            "&:hover": {
-              background: "#1976D2", // New background color on hover
-            },
-          }}
-        >
-          {/* <AddIcon /> */}
-          Registrar Pedido
-        </Button>
-      </Box>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={selectedTab} onChange={handleTabChange}>
-          <Tab label="Todos" />
-          <Tab label="Entregues" />
-          <Tab label="Pendentes" />
-        </Tabs>
-      </Box>
-      {filteredOrders.map((order) => (
+          <Button
+            sx={{
+              borderRadius: "0",
+              boxShadow:
+                "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+              // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
+              padding: "0.5rem 1rem",
+              background: "#1976D2",
+              color: "white",
+              "&:hover": {
+                background: "#00BCD4", // New background color on hover
+              },
+            }}
+          >
+            {/* <AddIcon /> */}
+            Registrar Pedido
+          </Button>
+        </Box>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs value={selectedTab} onChange={handleTabChange}>
+            <Tab label="Todos" />
+            <Tab label="Entregues" />
+            <Tab label="Pendentes" />
+          </Tabs>
+        </Box>
+        {/* {filteredOrders.map((order) => (
         <OrderListBox
           key={order.id}
           id={order.id}
           createdAt={"2021-10-01"}
           updatedAt={"2021-10-01"}
           userName={order.userID}
+          onOpenModal={() => handleOpenModal()}
+
+
         />
-      ))}
-      {/* <OrderListBox
-        id="1"
-        createdAt="2021-10-01"
-        updatedAt="2021-10-01"
-        userName="João"
-      /> */}
-    </Box>
+      ))} */}
+
+        <OrderListBox
+          key={"1"}
+          id={"1"}
+          createdAt={"2021-10-01"}
+          updatedAt={"2021-10-01"}
+          userName={"heyo"}
+          onOpenModal={handleOpenModal}
+        />
+      </Box>
+    </>
   );
 }

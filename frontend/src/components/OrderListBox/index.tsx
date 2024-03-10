@@ -1,16 +1,17 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import OrderDetails from "../../pages/OrderDetails";
 
 export interface OrderListBoxProps {
   id: string;
   createdAt: string;
   updatedAt: string;
   userName: string;
+  onOpenModal: (orderId: string) => void;
 }
 
 export default function OrderListBox(props: OrderListBoxProps) {
-  // )
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Grid
@@ -29,9 +30,9 @@ export default function OrderListBox(props: OrderListBoxProps) {
       }}
       padding="1rem"
       boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
-      margin="1rem"
+      margin="0.5rem"
       onClick={() => {
-        navigate(`/details?orderId=${props.id}`);
+        props.onOpenModal(props.id);
       }}
     >
       <Grid item xs={6} md={3}>

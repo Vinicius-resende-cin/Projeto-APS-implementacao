@@ -9,7 +9,7 @@ import {
   Grid,
   Radio,
   RadioGroup,
-  Typography
+  Typography,
 } from "@mui/material";
 import { StyledCard, StyledCardContainer } from "./styles";
 import { useState } from "react";
@@ -64,9 +64,29 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
                 Order ID: {order.id}
               </Typography>
             </Grid>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-              <Button variant="contained" component="label" onClick={handleImageCapture}>
-                Take Picture
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                component="label"
+                sx={{
+                  borderRadius: "0",
+                  boxShadow:
+                    "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+                  // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
+                  padding: "0.5rem 1rem",
+                  background: "#1976D2",
+                  color: "white",
+                  "&:hover": {
+                    background: "#00BCD4", // New background color on hover
+                  },
+                }}
+                onClick={handleImageCapture}
+              >
+                Tirar Foto
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -76,7 +96,7 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
                 sx={{
                   width: "100%",
                   height: "auto",
-                  objectFit: "contain"
+                  objectFit: "contain",
                 }}
                 src=""
               />
@@ -90,16 +110,45 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
               <Typography variant="body1">{order.userID}</Typography>
             </Grid>
           </Grid>
-          <Button variant="contained" color="primary" sx={{ marginTop: "1rem" }} onClick={handleOpen}>
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: "1rem",
+              borderRadius: "0",
+              boxShadow:
+                "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+              // boxShadow: "0px 10px 20px -5px rgba(0, 0, 0, 0.1)",
+              padding: "0.5rem 1rem",
+              background: "#1976D2",
+              color: "white",
+              "&:hover": {
+                background: "#00BCD4", // New background color on hover
+              },
+            }}
+            onClick={handleOpen}
+          >
             Update Status
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Update Order Status</DialogTitle>
             <DialogContent>
               <RadioGroup value={selectedStatus} onChange={handleStatusChange}>
-                <FormControlLabel value="Pending" control={<Radio />} label="Pending" />
-                <FormControlLabel value="Delivered" control={<Radio />} label="Delivered" />
-                <FormControlLabel value="Processing" control={<Radio />} label="Processing" />
+                <FormControlLabel
+                  value="Pending"
+                  control={<Radio />}
+                  label="Pending"
+                />
+                <FormControlLabel
+                  value="Delivered"
+                  control={<Radio />}
+                  label="Delivered"
+                />
+                <FormControlLabel
+                  value="Processing"
+                  control={<Radio />}
+                  label="Processing"
+                />
               </RadioGroup>
             </DialogContent>
             <DialogActions>

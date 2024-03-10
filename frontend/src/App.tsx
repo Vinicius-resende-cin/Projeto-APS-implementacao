@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<OrderList />} />
-        <Route path="details" element={<OrderDetails />} />
+        {/* <Route path="details" element={<OrderDetails />} /> */}
       </Routes>
     </div>
   );
