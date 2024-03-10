@@ -59,5 +59,5 @@ Requisitos:
 
 Em um terminal na pasta inicial do projeto rode:
 1. `docker-compose build` Para buildar os serviços
-2. `docker-compoes up` Para iniciar os serviços
+2. `docker-compose up` Para iniciar os serviços
 3. Acesse a url: http://localhost:3000 

@@ -11,5 +11,5 @@ app.use(cors());
 app.use(router);
 
 app.listen(3100, () => {
-  console.log("Servidor rodando na porta 3100");
+  console.log("Servidor rodando na porta 3101");
 });

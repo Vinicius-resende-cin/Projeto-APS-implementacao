@@ -7,4 +7,4 @@ services:
         - .:/app
         - /app/node_modules
     ports:
-      - "3103:3103"
+      - "3101:3101"

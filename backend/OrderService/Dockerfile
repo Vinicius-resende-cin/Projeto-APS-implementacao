@@ -4,6 +4,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 3103
+EXPOSE 3101
 
 CMD npm test
