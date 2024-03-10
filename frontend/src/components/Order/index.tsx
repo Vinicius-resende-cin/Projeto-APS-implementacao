@@ -60,8 +60,8 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
         <StyledCardContainer>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6" textAlign="center">
-                Order ID: {order.id}
+              <Typography variant="h6" textAlign="center" fontFamily="inherit">
+                ID do Pedido: {order.id}
               </Typography>
             </Grid>
             <Grid
@@ -82,6 +82,7 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
                   "&:hover": {
                     background: "#00BCD4",
                   },
+                  fontFamily: "inherit",
                 }}
                 onClick={handleImageCapture}
               >
@@ -101,12 +102,36 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography>Status:</Typography>
-              <Typography variant="body1">{order.status}</Typography>
+              <Typography
+                textAlign="center"
+                fontFamily="inherit"
+                fontWeight={600}
+              >
+                Status:
+              </Typography>
+              <Typography
+                variant="body1"
+                textAlign="center"
+                fontFamily="inherit"
+              >
+                {order.status}
+              </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography>User:</Typography>
-              <Typography variant="body1">{order.userID}</Typography>
+              <Typography
+                textAlign="center"
+                fontFamily="inherit"
+                fontWeight={600}
+              >
+                User:
+              </Typography>
+              <Typography
+                textAlign="center"
+                fontFamily="inherit"
+                variant="body1"
+              >
+                {order.userID}
+              </Typography>
             </Grid>
           </Grid>
           <Button
@@ -122,38 +147,48 @@ export default function OrderView({ order, onUpdateStatus }: OrderViewProps) {
               "&:hover": {
                 background: "#00BCD4",
               },
+              fontFamily: "inherit",
             }}
             onClick={handleOpen}
           >
             Atualizar Status
           </Button>
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Update Order Status</DialogTitle>
+            <DialogTitle fontFamily="inherit">Atualizar Status</DialogTitle>
             <DialogContent>
               <RadioGroup value={selectedStatus} onChange={handleStatusChange}>
                 <FormControlLabel
                   value="Pending"
                   control={<Radio />}
-                  label="Pending"
+                  label="Pendente"
                 />
                 <FormControlLabel
                   value="Delivered"
                   control={<Radio />}
-                  label="Delivered"
+                  label="Entregue"
                 />
                 <FormControlLabel
                   value="Processing"
                   control={<Radio />}
-                  label="Processing"
+                  label="Em processamento"
                 />
               </RadioGroup>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
+              <Button
+                onClick={handleClose}
+                color="primary"
+                sx={{ fontFamily: "inherit" }}
+              >
+                Cancelar
               </Button>
-              <Button onClick={handleStatusUpdate} color="primary" autoFocus>
-                Confirm
+              <Button
+                onClick={handleStatusUpdate}
+                color="primary"
+                sx={{ fontFamily: "inherit" }}
+                autoFocus
+              >
+                Confirmar
               </Button>
             </DialogActions>
           </Dialog>
