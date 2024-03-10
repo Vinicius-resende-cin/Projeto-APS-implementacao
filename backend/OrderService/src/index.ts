@@ -10,6 +10,6 @@ app.use(express.json());
 app.use(cors());
 app.use(router);
 
-app.listen(3100, () => {
+app.listen(3101, () => {
   console.log("Servidor rodando na porta 3101");
 });

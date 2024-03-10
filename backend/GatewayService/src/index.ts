@@ -19,9 +19,9 @@ const breakerOptions = {
 
 // Mapeamento de serviços para portas
 const servicePorts = {
-  order: 3101,
-  image: 3102,
-  notification: 3103
+  order: 3101
+  // notification é um serviço interno e não precisa ser mapeado
+  // image é um serviço que está acoplado dentro de OrderService e não precisa ser mapeado
 };
 
 // Função para criar um Circuit Breaker para um serviço específico
@@ -41,6 +41,7 @@ const circuitBreakers = Object.keys(servicePorts).reduce((acc, key) => {
 app.use('/', (req, res, next) => {
   // Extrai o nome do serviço a partir do caminho da requisição
   const serviceName = req.path.split('/')[1];
+  console.log(`Request to ${serviceName}`)
   // Recupera o Circuit Breaker correspondente ao serviço
   const circuitBreaker = circuitBreakers[serviceName];
   if (circuitBreaker) {

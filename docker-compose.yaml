@@ -4,11 +4,15 @@ services:
     extends:
       file: frontend/docker-compose.yaml
       service: app
-  main:
+  gateway:
     extends:
-      file: backend/MainService/docker-compose.yaml
+      file: backend/GatewayService/docker-compose.yaml
       service: app
   notification:
     extends:
       file: backend/NotificationService/docker-compose.yaml
+      service: app
+  order:
+    extends:
+      file: backend/OrderService/docker-compose.yaml
       service: app
