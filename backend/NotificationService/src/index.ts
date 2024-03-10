@@ -41,6 +41,6 @@ app.post("/orderStatusChange", (req, res) => {
   res.send("ok");
 });
 
-app.listen(3103, () => {
-  console.log("Servidor rodando na porta 3101");
+app.listen(3102, () => {
+  console.log("Servidor rodando na porta 3102");
 });
