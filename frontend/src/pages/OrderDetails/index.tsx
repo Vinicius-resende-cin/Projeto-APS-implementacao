@@ -26,8 +26,10 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (!orderId) return;
-    OrderDetailsPresenter.getOrder(orderId).then((order) => {
+    OrderDetailsPresenter.getOrder(orderId).then((order: any) => {
+      console.log("reach 1", order)
       setOrder(order);
+      console.log("reach 2")
     });
   }, [orderId]);
 
