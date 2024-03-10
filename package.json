@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "build": "docker-compose build",
+    "up": "docker-compose up"
+  },
+  "dependencies": {
+    },
+  "devDependencies": {
+    
+  }
+}
