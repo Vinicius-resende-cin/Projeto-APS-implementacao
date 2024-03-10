@@ -2,6 +2,7 @@ import { OrderCollection } from "../data/order";
 import Order from "../models/order";
 import * as User from "../data/user";
 import * as Notification from "../services/notification";
+import { UserCollection } from "../data/user";
 
 export class OrderRegisterController {
   private orderCollection: OrderCollection;
@@ -27,23 +28,45 @@ export class OrderRegisterController {
 
 export class OrderListController {
   private orderCollection: OrderCollection;
+  private userCollection: UserCollection; // Assuming you have a UserCollection class to manage users
 
-  constructor(orderCollection: OrderCollection) {
+  constructor(
+    orderCollection: OrderCollection,
+    userCollection: UserCollection
+  ) {
     this.orderCollection = orderCollection;
+    this.userCollection = userCollection;
   }
 
   async list(req: any, res: any) {
-    const user = req.body;
-    console.log(`Listando orders para o usuário ${user.id}...`);
+    const userId = req.query.userId; // Retrieve userId from request parameters
+    console.log(`Listando orders para o usuário ${userId}...`);
 
-    var orders: Order[] | null;
+    try {
+      const user = await this.userCollection.read(userId); // Retrieve user details using userId
+      console.log(`Listando orders para o usuário ${user}...`);
 
-    if (["doorman", "admin"].includes(user.type)) {
-      orders = await this.orderCollection.listAll();
-    } else {
-      orders = await this.orderCollection.listByUserID(user.id);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      let orders: Order[] | null;
+
+      if (
+        user &&
+        typeof user.type === "string" &&
+        ["doorman", "admin"].includes(user.type)
+      ) {
+        orders = await this.orderCollection.listAll();
+      } else {
+        orders = await this.orderCollection.listByUserID(userId);
+      }
+
+      res.send(orders);
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).send("Internal Server Error");
     }
-    res.send(orders);
   }
 }
 
@@ -80,7 +103,10 @@ export class OrderArrivedController {
   async arrived(req: any, res: any) {
     // Armazena a alteração de status da order
     const orderID = req.query.id;
-    const order = await this.orderCollection.update({ id: orderID, status: "arrived" });
+    const order = await this.orderCollection.update({
+      id: orderID,
+      status: "arrived",
+    });
     // Coleta dados para notificar usuário
     const userRepository = new User.UserRepositoryBDR();
     const userCollection = new User.UserCollection(userRepository);

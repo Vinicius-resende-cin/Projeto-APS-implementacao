@@ -2,8 +2,8 @@ import { Order } from "../components/Order";
 import OrderCollection from "../services/OrderCollectionService";
 
 export default class OrderDetailsPresenter {
-  public static async getOrders(): Promise<Order[]> {
-    return await OrderCollection.getOrders();
+  public static async getOrders(userId: Number): Promise<Order[]> {
+    return await OrderCollection.getOrders(userId);
   }
 
   public static async getOrder(id: string): Promise<Order> {

@@ -2,8 +2,11 @@ import { Order } from "../components/Order";
 import { serverUrl } from "../config";
 
 export default class OrderCollection {
-  static async getOrders() {
-    const response = await fetch(`${serverUrl}/order/list`);
+  static async getOrders(userId: Number) {
+    const response = await fetch(`${serverUrl}/order/list?userId=${userId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     return await response.json();
   }
 
@@ -17,7 +20,7 @@ export default class OrderCollection {
     const response = await fetch(`${serverUrl}/order/${route}?id=${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order)
+      body: JSON.stringify(order),
     });
     return await response.json();
   }
@@ -26,14 +29,14 @@ export default class OrderCollection {
     const response = await fetch(`${serverUrl}/order/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order)
+      body: JSON.stringify(order),
     });
     return await response.json();
   }
 
   static async deleteOrder(id: string) {
     const response = await fetch(`${serverUrl}/order/cancel?id=${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
     return await response.json();
   }

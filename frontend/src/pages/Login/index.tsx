@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import KeyIcon from "@mui/icons-material/Key";
+// import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+// import KeyIcon from "@mui/icons-material/Key";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -40,6 +40,9 @@ export default function Login() {
         fontFamily="inherit"
         textAlign="center"
         fontWeight={700}
+        sx={{
+          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+        }}
       >
         Sistema de Controle de Entregas
       </Typography>
@@ -68,26 +71,26 @@ export default function Login() {
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PersonOutlineIcon sx={{ color: "#2196F3" }} />{" "}
-              </InputAdornment>
-            ),
-          }}
+          // InputProps={{
+          //   startAdornment: (
+          //     <InputAdornment position="start">
+          //       <PersonOutlineIcon sx={{ color: "#2196F3" }} />{" "}
+          //     </InputAdornment>
+          //   ),
+          // }}
         ></TextField>
         <TextField
           type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <KeyIcon sx={{ color: "#2196F3" }} />
-              </InputAdornment>
-            ),
-          }}
+          // InputProps={{
+          //   startAdornment: (
+          //     <InputAdornment position="start">
+          //       <KeyIcon sx={{ color: "#2196F3" }} />
+          //     </InputAdornment>
+          //   ),
+          // }}
         />
 
         <Button
