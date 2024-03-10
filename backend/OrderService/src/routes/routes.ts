@@ -9,15 +9,15 @@ import {
   NRRepositoryFactory
 } from "../data/RepositoryFactory";
 
-dotenv.config({path: require.main === module? "../.env":"./src/.env"})
-const DB_TYPE = process.env.DB_TYPE;
+dotenv.config({ path: require.main === module ? "../.env" : "./src/.env" });
+const DB_TYPE = process.env.DB_TYPE || "BDR";
 
 const router = express.Router();
 
 // Instancia repositório (com abstract factory) e collection
-console.log(DB_TYPE)
+console.log(DB_TYPE);
 let repositoryFactory: AbstractRepositoryFactory =
-  process.env.DB_TYPE === "BDR" ? new BDRRepositoryFactory() : new NRRepositoryFactory();
+  DB_TYPE === "BDR" ? new BDRRepositoryFactory() : new NRRepositoryFactory();
 
 const orderRepositoryBDR = repositoryFactory.createOrderRepository();
 const orderCollection = new data.OrderCollection(orderRepositoryBDR);
