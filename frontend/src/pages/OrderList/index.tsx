@@ -43,7 +43,7 @@ export default function OrderList() {
     } else if (selectedTab === 1) {
       // Filter delivered orders
       const deliveredOrders = orders.filter(
-        (order) => order.status === "delivered"
+        (order) => order.status === "arrived"
       );
       setFilteredOrders(deliveredOrders);
     } else if (selectedTab === 2) {
