@@ -38,14 +38,20 @@ const createCircuitBreaker = (serviceName: string) => {
     next: express.NextFunction
   ): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      proxy(req, res, (error) => {
-        if (error) {
-          reject(error);
+      try {
+        // Chama o serviço através do proxy
+        proxy(req, res, next);
+        if (res.statusCode >= 500) {
+          reject(res.statusMessage);
         } else {
           resolve();
         }
-      });
-    }).catch(next); // Chame next com o erro, se houver.
+      } catch (err) {
+        // Chame next com o erro, se houver.
+        next(err);
+        reject(err);
+      }
+    });
   };
 
   // new CircuitBreaker espera uma função que retorna uma Promise.
