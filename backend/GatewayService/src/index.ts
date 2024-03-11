@@ -19,16 +19,21 @@ const breakerOptions = {
   resetTimeout: 30000 // Tempo para tentar fechar o circuito (ms)
 };
 
-// Mapeamento de serviços para portas
-const servicePorts = {
-  order: 3101
-  // notification é um serviço interno e não precisa ser mapeado
-  // image é um serviço que está acoplado dentro de OrderService e não precisa ser mapeado
+const getServiceAddr = async (serviceName: string) => {
+  return await fetch(`http://discovery:3001/?name=${serviceName}`)
+    .then((res) => res.json())
+    .catch((err) => {
+      throw err;
+    });
 };
+
+// Mapeamento dinâmico de serviços para portas
+const servicePorts = {};
 
 // Função para criar um Circuit Breaker para um serviço específico
 const createCircuitBreaker = (serviceName: string) => {
   const servicePort = servicePorts[serviceName];
+  console.log(`Creating Circuit Breaker for ${serviceName} at ${servicePort}`);
   const proxy = expressHttpProxy(`${serviceName}:${servicePort}`);
 
   // Assinatura de função que corresponde ao que o Circuit Breaker espera.
@@ -58,21 +63,24 @@ const createCircuitBreaker = (serviceName: string) => {
   return new CircuitBreaker(proxyFunction, breakerOptions);
 };
 
-// Exemplo de uso:
-// const serviceBreaker = createCircuitBreaker('serviceName');
-// app.use('/service', serviceBreaker.fire);
-
-// Cria um objeto que armazena os Circuit Breakers para cada serviço
-const circuitBreakers = Object.keys(servicePorts).reduce((acc, key) => {
-  acc[key] = createCircuitBreaker(key);
-  return acc;
-}, {} as Record<string, CircuitBreaker>);
+// Mapa dinâmico para armazenar os Circuit Breakers para cada serviço.
+const circuitBreakers = {};
 
 // Middleware que intercepta todas as requisições
-app.use("/", (req, res, next) => {
+app.use("/", async (req, res, next) => {
   // Extrai o nome do serviço a partir do caminho da requisição
   const serviceName = req.path.split("/")[1];
   console.log(`Request to ${serviceName}`);
+  // Verifica se o Circuit Breaker para o serviço já foi criado
+  if (!circuitBreakers[serviceName]) {
+    console.log("Service not found. Consulting discovery service...");
+    servicePorts[serviceName] = (await getServiceAddr(serviceName))["servicePort"];
+    // Verifica se o discovery service encontrou o serviço
+    if (!servicePorts[serviceName]) {
+      return res.status(502).send("Service not found.");
+    }
+    circuitBreakers[serviceName] = createCircuitBreaker(serviceName);
+  }
   // Recupera o Circuit Breaker correspondente ao serviço
   const circuitBreaker = circuitBreakers[serviceName];
   if (circuitBreaker) {

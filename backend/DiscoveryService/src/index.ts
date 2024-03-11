@@ -34,25 +34,23 @@ app.post("/", (req, res) => {
   );
 });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   const serviceName = req.query.name as string;
+  console.log(`Fetching service ${serviceName}`);
 
-  client.agent.service.list((err, services: any) => {
-    if (err) {
-      res.status(500).send("Error fetching services");
-      throw err;
-    }
+  const services: any = await client.agent.service.list();
 
-    const service = services[serviceName];
+  if (!services) res.status(404).send(`Service ${serviceName} not found`);
 
-    if (!service) {
-      res.status(404).send(`Service ${serviceName} not found`);
-      throw new Error(`Service ${serviceName} not found`);
-    }
+  const service = services[serviceName];
 
-    console.log(`Found service ${serviceName} at ${service.Address}:${service.Port}`);
-    res.send(`http://${service.Address}:${service.Port}`);
-  });
+  if (!service) {
+    res.status(404).send(`Service ${serviceName} not found`);
+    throw new Error(`Service ${serviceName} not found`);
+  }
+
+  console.log(`Found service ${serviceName} at ${service.Address}:${service.Port}`);
+  res.send(JSON.stringify({ servicePort: service.Port, serviceAddress: service.Address }));
 });
 
 app.listen(3001, () => {
