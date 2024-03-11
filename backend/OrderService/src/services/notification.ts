@@ -7,7 +7,7 @@ export async function orderStatusChange(user: User, order: Order): Promise<void>
   if (!notificationServiceAddress) throw new Error("Notification service address not found");
 
   console.log(`Notificando usuário ${user.id} sobre a mudança de status do pedido ${order.id}...`);
-  await fetch(`${notificationServiceAddress}/orderStatusChange`, {
+  await fetch(`http://${notificationServiceAddress}/orderStatusChange`, {
     method: "POST",
     body: JSON.stringify({ user: user, order: order }),
     headers: { "Content-Type": "application/json" }

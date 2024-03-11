@@ -10,6 +10,22 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const registerServiceDiscovery = async () => {
+  const serviceName = "notification";
+  const servicePort = 3102;
+
+  await fetch(`http://discovery:3001/?name=${serviceName}&port=${servicePort}`, {
+    method: "POST"
+  })
+    .then(() => {
+      console.log("Service registered");
+    })
+    .catch((err) => {
+      console.error("Error registering service", err);
+    });
+};
+registerServiceDiscovery();
+
 app.post("/orderStatusChange", (req, res) => {
   if (!req.body.user || !req.body.order) {
     res.status(400).send("Bad request");
