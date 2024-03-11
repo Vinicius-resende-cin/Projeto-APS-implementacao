@@ -12,7 +12,10 @@ export default class OrderCollection {
 
   static async getOrder(id: string) {
     const response = await fetch(`${serverUrl}/order/details?id=${id}`);
-    return await response.json();
+    console.log("response: ", response);
+    const toReturn = await response.json()
+    console.log("response json: ", toReturn);
+    return toReturn;
   }
 
   static async updateOrder(id: string, order: Order) {
