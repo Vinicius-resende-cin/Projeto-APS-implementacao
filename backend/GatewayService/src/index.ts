@@ -1,16 +1,16 @@
 // Importa as dependências necessárias
-import express from 'express';
-import logger from 'morgan';
-import expressHttpProxy from 'express-http-proxy';
-import CircuitBreaker from 'opossum';
-import cors from 'cors'
+import express from "express";
+import logger from "morgan";
+import expressHttpProxy from "express-http-proxy";
+import CircuitBreaker from "opossum";
+import cors from "cors";
 
 // Cria a instância do aplicativo express
 const app = express();
 
 // Middleware para logar as requisições HTTP
-app.use(logger('dev'));
-app.use(cors())
+app.use(logger("dev"));
+app.use(cors());
 
 // Opções de configuração do Circuit Breaker
 const breakerOptions = {
@@ -29,10 +29,14 @@ const servicePorts = {
 // Função para criar um Circuit Breaker para um serviço específico
 const createCircuitBreaker = (serviceName: string) => {
   const servicePort = servicePorts[serviceName];
-  const proxy = expressHttpProxy(`http://localhost:${servicePort}`);
+  const proxy = expressHttpProxy(`order:${servicePort}`);
 
   // Assinatura de função que corresponde ao que o Circuit Breaker espera.
-  const proxyFunction = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
+  const proxyFunction = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       proxy(req, res, (error) => {
         if (error) {
@@ -43,7 +47,7 @@ const createCircuitBreaker = (serviceName: string) => {
       });
     }).catch(next); // Chame next com o erro, se houver.
   };
-  
+
   // new CircuitBreaker espera uma função que retorna uma Promise.
   return new CircuitBreaker(proxyFunction, breakerOptions);
 };
@@ -59,10 +63,10 @@ const circuitBreakers = Object.keys(servicePorts).reduce((acc, key) => {
 }, {} as Record<string, CircuitBreaker>);
 
 // Middleware que intercepta todas as requisições
-app.use('/', (req, res, next) => {
+app.use("/", (req, res, next) => {
   // Extrai o nome do serviço a partir do caminho da requisição
-  const serviceName = req.path.split('/')[1];
-  console.log(`Request to ${serviceName}`)
+  const serviceName = req.path.split("/")[1];
+  console.log(`Request to ${serviceName}`);
   // Recupera o Circuit Breaker correspondente ao serviço
   const circuitBreaker = circuitBreakers[serviceName];
   if (circuitBreaker) {
@@ -70,11 +74,11 @@ app.use('/', (req, res, next) => {
     circuitBreaker.fire(req, res).catch(next);
   } else {
     // Se o serviço não for encontrado, retorna erro 502
-    res.status(502).send('Service not found.');
+    res.status(502).send("Service not found.");
   }
 });
 
 // Inicia o servidor na porta especificada
 app.listen(3100, () => {
-  console.log('API Gateway running!');
+  console.log("API Gateway running!");
 });
