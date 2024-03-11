@@ -29,7 +29,7 @@ const servicePorts = {
 // Função para criar um Circuit Breaker para um serviço específico
 const createCircuitBreaker = (serviceName: string) => {
   const servicePort = servicePorts[serviceName];
-  const proxy = expressHttpProxy(`order:${servicePort}`);
+  const proxy = expressHttpProxy(`${serviceName}:${servicePort}`);
 
   // Assinatura de função que corresponde ao que o Circuit Breaker espera.
   const proxyFunction = async (
