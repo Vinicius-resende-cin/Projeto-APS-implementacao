@@ -13,11 +13,11 @@ const client = new consul({
   host: "consul-server"
 });
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   const serviceName = req.query.name as string;
   const servicePort = parseInt(req.query.port as string);
 
-  client.agent.service.register(
+  await client.agent.service.register(
     {
       name: serviceName,
       port: servicePort
